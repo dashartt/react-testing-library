@@ -47,7 +47,6 @@ it('Teste se a página contém dois parágrafos com texto sobre a Pokédex', () 
 
   const paragraphTwo = screen.getByText(RegExp(PARAGRAPHS[1], 'i'));
   expect(paragraphTwo).toBeInTheDocument();
-  console.log(paragraphTwo);
 });
 
 it('Teste se a página contém a seguinte imagem de uma Pokédex: https://cdn2.bulbagarden.net/upload/thumb/8/86/Gen_I_Pok%C3%A9dex.png/800px-Gen_I_Pok%C3%A9dex.png', () => {

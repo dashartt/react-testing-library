@@ -38,7 +38,7 @@ describe('É exibido o próximo Pokémon quando o botão é clicado na Pokedex',
     expect(nextPokemon).toBeInTheDocument();
   });
 
-  it('OS próximos Pokémons devem ser mostrados, um a um, ao clicar no botão', () => {
+  it('Os próximos Pokémons devem ser mostrados, um a um, ao clicar no botão', () => {
     const nextPokemon = screen.getByRole('button', { name: NEXT_POKEMON });
 
     POKEMONS.forEach((pokemon) => {
@@ -79,9 +79,11 @@ describe('Teste se a Pokédex tem os botões de filtro', () => {
   });
 
   it('existir um botão de filtragem para cada tipo de Pokémon, sem repetição', () => {
-    POKEMON_TYPES.forEach((type) => {
+    const allPokemonTypes = screen.getAllByTestId('pokemon-type-button');
+
+    allPokemonTypes.forEach((_type, index) => {
       expect(
-        screen.getAllByRole('button', { name: type }),
+        screen.getAllByRole('button', { name: POKEMON_TYPES[index] }),
       ).toHaveLength(1);
     });
   });
@@ -101,8 +103,12 @@ describe('Teste se a Pokédex tem os botões de filtro', () => {
   });
 
   it('O texto do botão deve corresponder ao nome do tipo, ex. Psychic', () => {
-    POKEMON_TYPES.forEach((type) => {
-      expect(screen.getByRole('button', { name: type })).toHaveTextContent(type);
+    const allPokemonTypes = screen.getAllByTestId('pokemon-type-button');
+
+    allPokemonTypes.forEach((_type, index) => {
+      expect(
+        screen.getByRole('button', { name: POKEMON_TYPES[index] }),
+      ).toHaveTextContent(POKEMON_TYPES[index]);
     });
   });
 
