@@ -16,76 +16,73 @@ describe('Renderiza um card com as informações de determinado pokémon', () =>
   });
 
   it('O nome correto do Pokémon deve ser mostrado na tela', () => {
-    const pokemonName = screen.getByTestId('pokemon-name');
-    expect(pokemonName).toHaveTextContent('Pikachu');
+    expect(
+      screen.getByTestId('pokemon-name'),
+    ).toHaveTextContent('Pikachu');
   });
 
   it('O tipo correto do pokémon deve ser mostrado na tela', () => {
-    const pokemonName = screen.getByTestId('pokemon-type');
-    expect(pokemonName).toHaveTextContent('Electric');
+    expect(
+      screen.getByTestId('pokemon-type'),
+    ).toHaveTextContent('Electric');
   });
 
   it('O peso pokémon é exibido em texto no formato <value> <measurementUnit>', () => {
-    const pokemonName = screen.getByTestId('pokemon-weight');
-    expect(pokemonName).toHaveTextContent(/\b6.0 kg\b/);
+    expect(
+      screen.getByTestId('pokemon-weight'),
+    ).toHaveTextContent(/\b6.0 kg\b/);
   });
 
   it('A imagem do Pokémon é exibida. Ela deve conter um atributo src alt', () => {
-    const pokemonImage = screen.getByRole('img', { name: PIKACHU_SPRITE });
-    expect(pokemonImage).toBeInTheDocument();
-    expect(pokemonImage).toHaveAttribute('src', POKEMON_IMAGE_SRC);
+    expect(
+      screen.getByRole('img', { name: PIKACHU_SPRITE }),
+    ).toHaveAttribute('src', POKEMON_IMAGE_SRC);
   });
 });
 
-it('Card do Pokémon contém um link que exibe detalhes deste Pokémon', () => {
-  renderWithRouter(<App />);
+describe('Verifica o link de mais detalhes e a URL contida nele', () => {
+  let history = null;
+  let moreDetailsPikachu = null;
 
-  const moreDetails = screen.getByRole('link', { name: MORE_DETAIS });
-  expect(moreDetails).toHaveAttribute('href', PIKACHU_ROUTE_DETAILS);
-});
+  beforeEach(() => {
+    history = renderWithRouter(<App />).history;
+    moreDetailsPikachu = screen.getByRole('link', { name: MORE_DETAIS });
+  });
 
-it('Clicar no link é feito o Redirect para a página de detalhes de Pokémon.', () => {
-  const { history } = renderWithRouter(<App />);
+  it('Card do Pokémon contém um link que exibe detalhes deste Pokémon', () => {
+    expect(moreDetailsPikachu).toHaveAttribute('href', PIKACHU_ROUTE_DETAILS);
+  });
 
-  let pokemonName = screen.getByRole('img', { name: PIKACHU_SPRITE });
-  expect(pokemonName).toBeInTheDocument();
+  it('Clicar no link é feito o Redirect para a página de detalhes de Pokémon.', () => {
+    userEvent.click(moreDetailsPikachu);
 
-  userEvent.click(screen.getByRole('link', { name: MORE_DETAIS }));
-  expect(history.location.pathname).toBe(PIKACHU_ROUTE_DETAILS);
+    expect(
+      screen.getByRole('img', { name: PIKACHU_SPRITE }),
+    ).toBeInTheDocument();
+  });
 
-  pokemonName = screen.getByRole('img', { name: PIKACHU_SPRITE });
-  expect(pokemonName).toBeInTheDocument();
-});
-
-it('A URL muda para /pokemon/<id> do Pokémon cujos detalhes se deseja ver', () => {
-  const { history } = renderWithRouter(<App />);
-
-  const pokemonURL = screen.getByRole('link', { name: MORE_DETAIS });
-  expect(pokemonURL).toHaveAttribute('href', PIKACHU_ROUTE_DETAILS);
-
-  userEvent.click(screen.getByRole('link', { name: MORE_DETAIS }));
-  expect(history.location.pathname).toBe(PIKACHU_ROUTE_DETAILS);
+  it('A URL muda para /pokemon/<id> do Pokémon cujos detalhes se deseja ver', () => {
+    userEvent.click(moreDetailsPikachu);
+    expect(history.location.pathname).toBe(PIKACHU_ROUTE_DETAILS);
+  });
 });
 
 describe('Teste se existe um ícone de estrela nos Pokémons favoritados', () => {
+  let moreDetailsPikachu = null;
+
   beforeEach(() => {
     renderWithRouter(<App />);
+    moreDetailsPikachu = screen.getByRole('link', { name: MORE_DETAIS });
   });
 
   it('O fav-icon deve ter o atributo src contendo o caminho /star-icon.svg', () => {
-    userEvent.click(screen.getByRole('link', { name: MORE_DETAIS }));
-    userEvent.click(screen.getByRole('checkbox', { name: 'Pokémon favoritado?' }));
+    userEvent.click(moreDetailsPikachu);
+    userEvent.click(
+      screen.getByRole('checkbox', { name: 'Pokémon favoritado?' }),
+    );
 
-    const iconFav = screen.getByRole('img', { name: PIKACHU_IS_FAVORITE });
-    expect(iconFav).toBeInTheDocument();
-    expect(iconFav).toHaveAttribute('src', '/star-icon.svg');
-  });
-
-  it('O fav-icon deve ter o atributo alt <pokemon> is marked as favorite', () => {
-    userEvent.click(screen.getByRole('link', { name: MORE_DETAIS }));
-
-    const iconFav = screen.getByRole('img', { name: PIKACHU_IS_FAVORITE });
-    expect(iconFav).toBeInTheDocument();
-    expect(iconFav).toHaveAttribute('alt', PIKACHU_IS_FAVORITE);
+    expect(
+      screen.getByRole('img', { name: PIKACHU_IS_FAVORITE }),
+    ).toHaveAttribute('src', '/star-icon.svg');
   });
 });

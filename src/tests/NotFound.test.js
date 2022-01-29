@@ -12,13 +12,13 @@ beforeEach(() => {
 
 it('Teste se página contém um heading h2 com o texto Page requested not found', () => {
   const notFoundText = screen.getByRole(
-    'heading', { level: 2, name: /Page requested not found/i },
+    'heading', { level: 2, name: /Page requested not found/ },
   );
   expect(notFoundText).toBeInTheDocument();
 });
 
 it('Teste se página mostra a imagem https://media.giphy.com/media/kNSeTs31XBZ3G/giphy.gif', () => {
-  const notFoundImage = screen.getByRole('img', { name: IMAGE_ALT });
-  expect(notFoundImage).toBeInTheDocument();
-  expect(notFoundImage).toHaveAttribute('src', IMAGE_SRC);
+  expect(
+    screen.getByRole('img', { name: IMAGE_ALT }),
+  ).toHaveAttribute('src', IMAGE_SRC);
 });
