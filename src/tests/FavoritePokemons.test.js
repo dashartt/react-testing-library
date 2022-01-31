@@ -10,7 +10,8 @@ beforeEach(() => {
   history = renderWithRouter(<App />).history;
 });
 
-it('É exibido a mensagem No favorite pokemon found, não tiver pokémons favoritos', () => {
+it(`Teste se é exibido na tela a mensagem No favorite pokemon found, se a pessoa 
+não tiver pokémons favoritos`, () => {
   history.push('/favorites');
 
   expect(
@@ -18,7 +19,7 @@ it('É exibido a mensagem No favorite pokemon found, não tiver pokémons favori
   ).toBeInTheDocument();
 });
 
-it('este se é exibido todos os cards de pokémons favoritados', () => {
+it('Teste se é exibido todos os cards de pokémons favoritados', () => {
   userEvent.click(screen.getByRole('link', { name: 'More details' }));
   userEvent.click(screen.getByLabelText('Pokémon favoritado?'));
 

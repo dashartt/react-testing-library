@@ -13,21 +13,24 @@ const NOTFOUND_TEXT = /Page requested not found/;
 const NOTFOUND_IMAGE_ALT = /Pikachu crying because the page requested was not found/;
 const NOTFOUND_IMAGE_SRC = 'https://media.giphy.com/media/kNSeTs31XBZ3G/giphy.gif';
 
-describe('Redirecionamente ocorre como esperado ao clicar nos links do topo', () => {
+describe(`Teste se o topo da aplicação contém um conjunto
+ fixo de links de navegação`, () => {
   let history;
 
   beforeEach(() => {
     history = renderWithRouter(<App />).history;
   });
 
-  it('É redirecionada para a página inicial, na URL / ao clicar no link Home', () => {
+  it(`O primeiro link deve possuir o texto Home e se a aplicação é redirecionada 
+  para a página inicial, na URL / ao clicar no link Home da barra de navegação`, () => {
     userEvent.click(
       screen.getByRole('link', { name: 'Home' }),
     );
     expect(history.location.pathname).toBe('/');
   });
 
-  it('É redirecionada p/ a página de About ao clicar no link About', () => {
+  it(`O segundo link deve possuir o texto About e se a aplicação é redirecionada para a 
+  página de About, na URL /about, ao clicar no link About da barra de navegação`, () => {
     userEvent.click(
       screen.getByRole('link', { name: 'About' }),
     );
@@ -35,7 +38,8 @@ describe('Redirecionamente ocorre como esperado ao clicar nos links do topo', ()
     expect(history.location.pathname).toBe('/about');
   });
 
-  it('Ir p/ página de Pokémons Favoritados, ao clicar no link Favorite Pokémons', () => {
+  it(`O terceiro link deve possuir o texto Favorite Pokémons e
+  é redirecionada para a página de Pokémons Favoritados, na URL /favorites`, () => {
     userEvent.click(
       screen.getByRole('link', { name: 'Favorite Pokémons' }),
     );
@@ -43,7 +47,8 @@ describe('Redirecionamente ocorre como esperado ao clicar nos links do topo', ()
     expect(history.location.pathname).toBe('/favorites');
   });
 
-  it('Ir p/ página Not Found ao entrar em uma URL desconhecida', () => {
+  it(`Teste se a aplicação é redirecionada para a página Not Found ao entrar 
+  em uma URL desconhecida`, () => {
     history.push('not-exist');
 
     expect(

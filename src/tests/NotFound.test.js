@@ -12,7 +12,7 @@ beforeEach(() => {
 
 it('Teste se página contém um heading h2 com o texto Page requested not found', () => {
   const notFoundText = screen.getByRole(
-    'heading', { level: 2, name: /Page requested not found/ },
+    'heading', { level: 2, name: /Page requested not/ },
   );
   expect(notFoundText).toBeInTheDocument();
 });
